@@ -42,4 +42,9 @@ public class ProductRepository {
         return null;
     }
 
+    // delete product
+    public void delete(String id) {
+        productData.removeIf(product -> product.getProductId().equals(id));
+    }
+
 }
