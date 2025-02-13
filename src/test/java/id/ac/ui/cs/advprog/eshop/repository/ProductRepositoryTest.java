@@ -16,8 +16,11 @@ class ProductRepositoryTest {
 
     @InjectMocks
     ProductRepository productRepository;
+
+    // new repository for each test
     @BeforeEach
     void setUp() {
+        productRepository = new ProductRepository();
     }
 
     @Test
@@ -63,5 +66,59 @@ class ProductRepositoryTest {
         savedProduct = productIterator.next();
         assertEquals(product2.getProductId(), savedProduct.getProductId());
         assertFalse(productIterator.hasNext());
+    }
+
+    // positive: edit an existing product
+    @Test
+    void testUpdateProductSuccess() {
+        Product product = new Product();
+        product.setProductId("ec5c6afa-4d69-4be7-9e80-6ec3f336369d");
+        product.setProductName("Old Name");
+        product.setProductQuantity(30);
+        productRepository.create(product);
+
+        Product updatedProduct = new Product();
+        updatedProduct.setProductName("JJoongrami");
+        updatedProduct.setProductQuantity(150);
+
+        Product result = productRepository.update("ec5c6afa-4d69-4be7-9e80-6ec3f336369d", updatedProduct);
+
+        assertNotNull(result);
+        assertEquals("JJoongrami", result.getProductName());
+        assertEquals(150, result.getProductQuantity());
+    }
+
+    // negative: update a non-existent product
+    @Test
+    void testUpdateProductFailure() {
+        Product updatedProduct = new Product();
+        updatedProduct.setProductName("Delusional");
+        updatedProduct.setProductQuantity(30);
+
+        Product result = productRepository.update("3a59877b-2dbf-4e0f-a75b-e7beff5a2194", updatedProduct);
+
+        assertNull(result);
+    }
+
+    // positive: delete an existing product
+    @Test
+    void testDeleteProductSuccess() {
+        Product product = new Product();
+        product.setProductId("ec5c6afa-4d69-4be7-9e80-6ec3f336369d");
+        product.setProductName("Bye Jjoongrami");
+        product.setProductQuantity(10);
+        productRepository.create(product);
+
+        productRepository.delete("ec5c6afa-4d69-4be7-9e80-6ec3f336369d");
+
+        Product deletedProduct = productRepository.findById("ec5c6afa-4d69-4be7-9e80-6ec3f336369d");
+        assertNull(deletedProduct);
+    }
+
+    // negative: delete a non-existent product
+    @Test
+    void testDeleteProductFailure() {
+        productRepository.delete("3a59877b-2dbf-4e0f-a75b-e7beff5a2194");
+        assertFalse(productRepository.findAll().hasNext());
     }
 }
