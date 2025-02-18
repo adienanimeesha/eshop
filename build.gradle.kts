@@ -68,8 +68,6 @@ tasks.withType<Test>().configureEach {
 	useJUnitPlatform()
 }
 
-// idk if i should delete the tasks on top or not tho
-// check again later
 tasks.test {
 	filter {
 		excludeTestsMatching("*FunctionalTest")
