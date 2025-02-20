@@ -19,33 +19,24 @@ class ProductRepositoryTest {
 
     @BeforeEach
     void setUp() {
-        productRepository = new ProductRepository();
-    }
-
-    // create tests
-    @Test
-    void testCreate_WithNullId() {
-        Product product = new Product();
-        product.setProductId(null);
-
-        Product createdProduct = productRepository.create(product);
-
-        assertNotNull(createdProduct.getProductId());
-        assertFalse(createdProduct.getProductId().isEmpty());
     }
 
     @Test
-    void testCreate_WithEmptyId() {
+    void testCreateAndFind() {
         Product product = new Product();
-        product.setProductId("");
+        product.setProductId("eb558e9f-1c39-460e-8860-71af6af63bd6");
+        product.setProductName("Sampo Cap Bambang");
+        product.setProductQuantity(100);
+        productRepository.create(product);
 
-        Product createdProduct = productRepository.create(product);
-
-        assertNotNull(createdProduct.getProductId());
-        assertFalse(createdProduct.getProductId().isEmpty());
+        Iterator<Product> productIterator = productRepository.findAll();
+        assertTrue(productIterator.hasNext());
+        Product savedProduct = productIterator.next();
+        assertEquals(product.getProductId(), savedProduct.getProductId());
+        assertEquals(product.getProductName(), savedProduct.getProductName());
+        assertEquals(product.getProductQuantity(), savedProduct.getProductQuantity());
     }
 
-    // find tests
     @Test
     void testFindAllIfEmpty() {
         Iterator<Product> productIterator = productRepository.findAll();
@@ -53,143 +44,153 @@ class ProductRepositoryTest {
     }
 
     @Test
-    void testFindById_WhenProductExists() {
+    void testFindAllIfMoreThanOneProduct() {
+        Product product1 = new Product();
+        product1.setProductId("eb558e9f-1c39-460e-8860-71af6af63bd6");
+        product1.setProductName("Sampo Cap Bambang");
+        product1.setProductQuantity(100);
+        productRepository.create(product1);
+
+        Product product2 = new Product();
+        product2.setProductId("a0f9de46-90b1-437d-a0bf-d0821dde9096");
+        product2.setProductName("Sampo Cap Usep");
+        product2.setProductQuantity(50);
+        productRepository.create(product2);
+
+        Iterator<Product> productIterator = productRepository.findAll();
+        assertTrue(productIterator.hasNext());
+        Product savedProduct = productIterator.next();
+        assertEquals(product1.getProductId(), savedProduct.getProductId());
+        savedProduct = productIterator.next();
+        assertEquals(product2.getProductId(), savedProduct.getProductId());
+        assertFalse(productIterator.hasNext());
+    }
+
+    @Test
+    void testDeleteProductExistingProduct() {
         Product product = new Product();
-        product.setProductId("1");
+        product.setProductId("product-001");
+        product.setProductName("Delete Product");
+        product.setProductQuantity(10);
         productRepository.create(product);
-        Product foundProduct = productRepository.findById("1");
-        assertNotNull(foundProduct);
-        assertEquals("1", foundProduct.getProductId());
+
+        productRepository.delete("product-001");
+
+        assertNull(productRepository.findById("product-001"));
+
+        Iterator<Product> iterator = productRepository.findAll();
+        assertFalse(iterator.hasNext());
     }
 
     @Test
-    void testFindById_WhenProductDoesNotExist() {
-        Product foundProduct = productRepository.findById("999");
-        assertNull(foundProduct);
-    }
-
-    @Test
-    void testFindById_WhenIdIsNull() {
-        Product foundProduct = productRepository.findById(null);
-        assertNull(foundProduct);
-    }
-
-    @Test
-    void testFindById_WhenIdIsEmpty() {
-        Product foundProduct = productRepository.findById("");
-        assertNull(foundProduct);
-    }
-
-    // update tests
-    @Test
-    void testUpdateProductSuccess() {
+    void testDeleteProductNonExistingProduct() {
         Product product = new Product();
-        product.setProductId("1");
-        product.setProductName("Old Name");
-        product.setProductQuantity(30);
+        product.setProductId("product-002");
+        product.setProductName("Sample Product");
+        product.setProductQuantity(20);
+        productRepository.create(product);
+
+        productRepository.delete("non-existent-id");
+
+        Product retrievedProduct = productRepository.findById("product-002");
+        assertNotNull(retrievedProduct);
+        assertEquals("Sample Product", retrievedProduct.getProductName());
+        assertEquals(20, retrievedProduct.getProductQuantity());
+    }
+
+    @Test
+    void testUpdateExistingProduct() {
+        Product product = new Product();
+        product.setProductId("product-003");
+        product.setProductName("Old Product");
+        product.setProductQuantity(15);
         productRepository.create(product);
 
         Product updatedProduct = new Product();
-        updatedProduct.setProductName("JJoongrami");
-        updatedProduct.setProductQuantity(150);
-        Product result = productRepository.update("1", updatedProduct);
-        assertNotNull(result);
-        assertEquals("JJoongrami", result.getProductName());
-        assertEquals(150, result.getProductQuantity());
-    }
-
-    @Test
-    void testUpdate_WhenProductDoesNotExist() {
-        Product updatedProduct = new Product();
-        updatedProduct.setProductName("Delusional");
+        updatedProduct.setProductId("product-003");
+        updatedProduct.setProductName("Modified Product");
         updatedProduct.setProductQuantity(30);
-        Product result = productRepository.update("non-existing-id", updatedProduct);
-        assertNull(result);
-    }
+        Product result = productRepository.update(updatedProduct.getProductId(), updatedProduct);
 
-    @Test
-    void testUpdate_WhenNameIsNull() {
-        Product product = new Product();
-        product.setProductId("1");
-        product.setProductName("Old Name");
-        product.setProductQuantity(50);
-        productRepository.create(product);
-        Product updatedProduct = new Product();
-        updatedProduct.setProductName(null);
-        updatedProduct.setProductQuantity(60);
-        Product result = productRepository.update("1", updatedProduct);
         assertNotNull(result);
-        assertNull(result.getProductName());
-        assertEquals(60, result.getProductQuantity());
+        assertEquals("Modified Product", result.getProductName());
+        assertEquals(30, result.getProductQuantity());
+
+        Product retrievedProduct = productRepository.findById("product-003");
+        assertNotNull(retrievedProduct);
+        assertEquals("Modified Product", retrievedProduct.getProductName());
+        assertEquals(30, retrievedProduct.getProductQuantity());
     }
 
     @Test
-    void testUpdate_WhenQuantityIsNotSet() {
-        Product product = new Product();
-        product.setProductId("1");
-        product.setProductName("Old Name");
-        product.setProductQuantity(50);
-        productRepository.create(product);
+    void testUpdateNonExistingProduct() {
         Product updatedProduct = new Product();
-        updatedProduct.setProductName("New Name");
-        Product result = productRepository.update("1", updatedProduct);
+        updatedProduct.setProductId("id-ghoib");
+        updatedProduct.setProductName("Product Ghoib");
+        updatedProduct.setProductQuantity(40);
+
+        Product result = productRepository.update(updatedProduct.getProductId(), updatedProduct);
+        assertNull(result);
+    }
+
+    @Test
+    void testCreateProductWithNullId() {
+        Product product = new Product();
+        product.setProductName("Null ID Product");
+        product.setProductQuantity(10);
+
+        Product createdProduct = productRepository.create(product);
+
+        assertNotNull(createdProduct.getProductId());
+        assertFalse(createdProduct.getProductId().isEmpty());
+        assertEquals("Null ID Product", createdProduct.getProductName());
+        assertEquals(10, createdProduct.getProductQuantity());
+    }
+
+    @Test
+    void testCreateProductWithEmptyId() {
+        Product product = new Product();
+        product.setProductId("");
+        product.setProductName("Empty ID Product");
+        product.setProductQuantity(5);
+
+        Product createdProduct = productRepository.create(product);
+
+        assertNotNull(createdProduct.getProductId());
+        assertFalse(createdProduct.getProductId().isEmpty());
+        assertEquals("Empty ID Product", createdProduct.getProductName());
+        assertEquals(5, createdProduct.getProductQuantity());
+    }
+
+    @Test
+    void testUpdateExistingProductInSecondIteration() {
+        // Create first product
+        Product product1 = new Product();
+        product1.setProductId("p1");
+        product1.setProductName("jjoongrami");
+        product1.setProductQuantity(5);
+        productRepository.create(product1);
+
+        // create a second product
+        Product product2 = new Product();
+        product2.setProductId("p2");
+        product2.setProductName("ddeongbyeoli");
+        product2.setProductQuantity(10);
+        productRepository.create(product2);
+
+        // prepare updated product for the second one
+        Product updatedProduct2 = new Product();
+        updatedProduct2.setProductId("p2");
+        updatedProduct2.setProductName("ddeongbyeoli Updated");
+        updatedProduct2.setProductQuantity(20);
+
+        // update  second product
+        Product result = productRepository.update("p2", updatedProduct2);
+
+        // verify it updated correctly
         assertNotNull(result);
-        assertEquals("New Name", result.getProductName());
-        assertEquals(50, result.getProductQuantity()); // Quantity should remain unchanged
-    }
-
-    @Test
-    void testUpdate_WhenIdDoesNotMatchAnyProduct() {
-        Product updatedProduct = new Product();
-        updatedProduct.setProductName("ShouldFail");
-        updatedProduct.setProductQuantity(25);
-        Product result = productRepository.update("non-existing-id", updatedProduct);
-        assertNull(result);
-    }
-
-    @Test
-    void testUpdate_WhenIdIsNull() {
-        Product updatedProduct = new Product();
-        updatedProduct.setProductName("ShouldFail");
-        updatedProduct.setProductQuantity(10);
-        Product result = productRepository.update(null, updatedProduct);
-        assertNull(result);
-    }
-
-    @Test
-    void testUpdate_WhenIdIsEmpty() {
-        Product updatedProduct = new Product();
-        updatedProduct.setProductName("ShouldFail");
-        updatedProduct.setProductQuantity(10);
-        Product result = productRepository.update("", updatedProduct);
-        assertNull(result);
-    }
-
-    // delete tests
-    @Test
-    void testDelete_WhenProductExists() {
-        Product product = new Product();
-        product.setProductId("1");
-        productRepository.create(product);
-
-        productRepository.delete("1");
-
-        assertNull(productRepository.findById("1"));
-    }
-
-    @Test
-    void testDelete_WhenProductDoesNotExist() {
-        productRepository.delete("non-existing-id");
-        assertNull(productRepository.findById("non-existing-id"));
-    }
-
-    @Test
-    void testDelete_WhenIdIsNull() {
-        productRepository.delete(null);
-    }
-
-    @Test
-    void testDelete_WhenIdIsEmpty() {
-        productRepository.delete("");
+        assertEquals("p2", result.getProductId());
+        assertEquals("ddeongbyeoli Updated", result.getProductName());
+        assertEquals(20, result.getProductQuantity());
     }
 }

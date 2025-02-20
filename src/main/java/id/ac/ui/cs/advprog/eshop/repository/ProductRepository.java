@@ -10,11 +10,11 @@ import java.util.UUID;
 
 @Repository
 public class ProductRepository {
-    private final List<Product> productData = new ArrayList<>();
+    private List<Product> productData = new ArrayList<>();
 
     public Product create(Product product) {
         if (product.getProductId() == null || product.getProductId().isEmpty()) {
-            product.setProductId(UUID.randomUUID().toString()); // setting unique ID
+            product.setProductId(UUID.randomUUID().toString());
         }
         productData.add(product);
         return product;
@@ -34,21 +34,15 @@ public class ProductRepository {
     public Product update(String id, Product updatedProduct) {
         for (Product product : productData) {
             if (product.getProductId().equals(id)) {
-                // update product name, even if null
                 product.setProductName(updatedProduct.getProductName());
-                // update quantity if explicitly set
-                if (updatedProduct.getProductQuantity() != 0) {
-                    product.setProductQuantity(updatedProduct.getProductQuantity());
-                }
+                product.setProductQuantity(updatedProduct.getProductQuantity());
                 return product;
             }
         }
         return null;
     }
 
-    // delete product
     public void delete(String id) {
         productData.removeIf(product -> product.getProductId().equals(id));
     }
-
 }
