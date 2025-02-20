@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 
@@ -33,7 +32,7 @@ class CreateProductFunctionalTest {
     }
 
     @Test
-    void userCanCreateProduct(ChromeDriver driver) throws Exception {
+    void userCanCreateProduct(ChromeDriver driver) {
         // open Create Product page
         driver.get(baseUrl + "/product/create");
 
