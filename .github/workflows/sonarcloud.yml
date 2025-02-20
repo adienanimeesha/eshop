@@ -1,15 +1,17 @@
-name: SonarCloud Analysis
+name: SonarCloud Code Analysis
+
 on:
   push:
     branches:
       - main
-      - module-2-exercise
   pull_request:
     types: [opened, synchronize, reopened]
+
 jobs:
   build:
     name: Build and Analyze with SonarCloud
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
@@ -43,4 +45,4 @@ jobs:
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
-          ./gradlew build sonar --stacktrace --info  # ✅ Better debugging
+          ./gradlew build sonar --stacktrace --info
