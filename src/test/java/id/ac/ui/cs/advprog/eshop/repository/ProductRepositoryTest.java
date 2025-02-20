@@ -19,6 +19,9 @@ class ProductRepositoryTest {
 
     @BeforeEach
     void setUp() {
+        // this method is intentionally left empty.
+        // the MockitoExtension handles the injection of mocks annotated with @InjectMocks,
+        // so no further initialization is necessary for these tests.
     }
 
     @Test
@@ -184,7 +187,7 @@ class ProductRepositoryTest {
         updatedProduct2.setProductName("ddeongbyeoli Updated");
         updatedProduct2.setProductQuantity(20);
 
-        // update  second product
+        // update the second product
         Product result = productRepository.update("p2", updatedProduct2);
 
         // verify it updated correctly
