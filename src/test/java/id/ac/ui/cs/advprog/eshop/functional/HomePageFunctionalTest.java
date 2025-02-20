@@ -17,14 +17,14 @@ import static org.springframework.boot.test.context.SpringBootTest.WebEnvironmen
 @ExtendWith(SeleniumJupiter.class)
 class HomePageFunctionalTest {
     /**
-     * The port number assigned to the running application during test execution.
-     * Set automatically during each test run by Spring Framework's test context.
+     * the port number assigned to the running application during test execution
+     * set automatically during each test run by Spring Framework's test context
      */
-
     @LocalServerPort
     private int serverPort;
+
     /**
-     * The base URL for testing. Default to {@code http://localhost}.
+     * the base URL for testing. Default to {@code http://localhost}.
      */
     @Value("${app.baseUrl:http://localhost}")
     private String testBaseUrl;
@@ -37,24 +37,22 @@ class HomePageFunctionalTest {
     }
 
     @Test
-    void pageTitle_isCorrect(ChromeDriver driver) throws Exception {
-        // Exercise
+    void pageTitle_isCorrect(ChromeDriver driver) {
+        // exercise
         driver.get(baseUrl);
         String pageTitle = driver.getTitle();
 
-        // Verify
+        // verify
         assertEquals("ADV Shop", pageTitle);
     }
 
     @Test
-    void welcomeMessage_homePage_isCorrect(ChromeDriver driver) throws Exception {
-        // Exercise
+    void welcomeMessage_homePage_isCorrect(ChromeDriver driver) {
+        // exercise
         driver.get(baseUrl);
-        String welcomeMessage = driver.findElement(By.tagName("h3"))
-                .getText();
-        // Verify
+        String welcomeMessage = driver.findElement(By.tagName("h3")).getText();
+
+        // verify
         assertEquals("Welcome", welcomeMessage);
-
     }
-
 }
