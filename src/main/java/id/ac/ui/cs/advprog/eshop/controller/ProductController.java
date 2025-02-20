@@ -18,25 +18,25 @@ public class ProductController {
 
     @GetMapping("/create")
     public String createProductPage(Model model) {
-        Product product = new Product();
-        model.addAttribute("product", product);
+        model.addAttribute("product", new Product());
         return "CreateProduct";
     }
 
     @PostMapping("/create")
-    public String createProductPost(@ModelAttribute Product product, Model model) {
-        service.create(product);
-        return "redirect:list";
+    public String createProductPost(@ModelAttribute Product product) {
+        if (product != null) {
+            service.create(product);
+        }
+        return "redirect:/product/list";
     }
 
     @GetMapping("/list")
     public String productListPage(Model model) {
         List<Product> allProducts = service.findAll();
-        model.addAttribute("products", allProducts);
+        model.addAttribute("products", allProducts != null ? allProducts : List.of());
         return "ProductList";
     }
 
-    // edit product feature
     @GetMapping("/edit/{id}")
     public String editProductPage(@PathVariable String id, Model model) {
         Product product = service.findById(id);
@@ -49,16 +49,18 @@ public class ProductController {
 
     @PostMapping("/edit/{id}")
     public String editProductPost(@PathVariable String id, @ModelAttribute Product product) {
-        product.setProductId(id);
-        service.update(id, product);
+        if (product != null) {
+            product.setProductId(id);
+            service.update(id, product);
+        }
         return "redirect:/product/list";
     }
 
-    // delete feature
     @GetMapping("/delete/{id}")
     public String deleteProduct(@PathVariable String id) {
-        service.delete(id);
+        if (id != null && !id.isEmpty()) {
+            service.delete(id);
+        }
         return "redirect:/product/list";
     }
-
 }

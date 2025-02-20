@@ -34,8 +34,12 @@ public class ProductRepository {
     public Product update(String id, Product updatedProduct) {
         for (Product product : productData) {
             if (product.getProductId().equals(id)) {
+                // update product name, even if null
                 product.setProductName(updatedProduct.getProductName());
-                product.setProductQuantity(updatedProduct.getProductQuantity());
+                // update quantity if explicitly set
+                if (updatedProduct.getProductQuantity() != 0) {
+                    product.setProductQuantity(updatedProduct.getProductQuantity());
+                }
                 return product;
             }
         }
