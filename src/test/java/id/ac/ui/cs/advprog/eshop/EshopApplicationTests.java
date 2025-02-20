@@ -3,6 +3,8 @@ package id.ac.ui.cs.advprog.eshop;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+
 @SpringBootTest
 class EshopApplicationTests {
 
@@ -18,11 +20,10 @@ class EshopApplicationTests {
 	@Test
 	void mainMethodTest() {
 		/*
-		 * This test calls the main method of the application
-		 * while it does not assert any outcomes, it ensures that the application starts
-		 * without throwing exceptions during bootstrapping. Any failure during startup
-		 * will cause the test to fail.
+		 * This test calls the main method of the application.
+		 * It verifies that the application starts without throwing exceptions during bootstrapping.
+		 * Any exception thrown would cause the test to fail.
 		 */
-		EshopApplication.main(new String[]{});
+		assertDoesNotThrow(() -> EshopApplication.main(new String[]{}));
 	}
 }
