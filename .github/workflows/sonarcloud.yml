@@ -1,13 +1,11 @@
 name: SonarCloud Analysis
-
 on:
   push:
     branches:
-      - module-2-exercise
       - main
+      - module-2-exercise
   pull_request:
     types: [opened, synchronize, reopened]
-
 jobs:
   build:
     name: Build and Analyze with SonarCloud
@@ -17,6 +15,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
+
       - name: Set up JDK 21
         uses: actions/setup-java@v4
         with:
@@ -44,4 +43,4 @@ jobs:
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
-          ./gradlew build sonar --stacktrace --info
+          ./gradlew build sonar --stacktrace --info  # ✅ Better debugging
