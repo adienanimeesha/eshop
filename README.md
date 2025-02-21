@@ -1,4 +1,6 @@
-## Module 1
+<details>
+    <summary>Module 1</summary>
+</details>
 
 <details>
   <summary>Reflection 1</summary>
@@ -34,14 +36,15 @@ redefining it. This step also allows the test cases to be cleaner and maintainab
 </details>
 
 
-## Module 2
+<details> 
+    <summary>Module 2</summary>
+</details> 
 
 <details>
-  <summary>Reflection 2</summary>
+  <summary>Reflection 1</summary>
 
-### Reflection 1 
 1. 
--First issue: SonarCloud suggests not hardcoding the version numbers in build.gradle.kts. This is resolved by creating a new file called gradle.properties
+- First issue: SonarCloud suggests not hardcoding the version numbers in build.gradle.kts. This is resolved by creating a new file called gradle.properties
 in the root folder and adding the plugins, dependencies, and their corresponding version numbers. Then, I edited the build.gradle.kts file so that it uses delegated properties 
 to reference these versions.
 - Second issue: A constant should be defined instead of duplicating the literal "redirect:/product/list" four times. This issue occurs in the ProductController.java file 
