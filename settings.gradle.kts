@@ -11,3 +11,4 @@ pluginManagement {
         id("org.sonarqube") version sonarqubeVersion
     }
 }
+

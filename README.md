@@ -21,3 +21,4 @@ may have the same instance variables as the previous functional test. Other than
 which makes the code repetitive and may minimize the maintainability, making the code inconsistent. This can be improved by creating
 a new java class that contains the same logic, allowing each test suite to inherit from the new class instead of 
 redefining it. This step also allows the test cases to be cleaner and maintainable, reducing chances of inconsistency. 
+
