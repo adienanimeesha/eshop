@@ -1,7 +1,4 @@
-<details>
-    <summary>Module 1</summary>
-</details>
-
+## Module 1
 <details>
   <summary>Reflection 1</summary>
 
@@ -36,9 +33,7 @@ redefining it. This step also allows the test cases to be cleaner and maintainab
 </details>
 
 
-<details> 
-    <summary>Module 2</summary>
-</details> 
+## Module 2
 
 <details>
   <summary>Reflection 1</summary>
