@@ -36,7 +36,7 @@ public class CarRepository {
                 // update existing car with new information
                 car.setCarName(updateCar.getCarName());
                 car.setCarColor(updateCar.getCarColor());
-                car.setCarQuality(updateCar.getCarQuality());
+                car.setCarQuantity(updateCar.getCarQuantity());
                 return car;
             }
         }
