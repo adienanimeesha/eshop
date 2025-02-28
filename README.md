@@ -59,7 +59,49 @@ requiring any extra manual steps.
 <details>
   <summary>Reflection</summary>
 
-1. 
+**1. The principles I applied to my project are SRP, DIP, and OCP**
+- SRP
+Single Responsibility Principle is when every class should have one responsibility. In the context of my project, 
+```controller```, ```service```, and ```repository``` have their own responsibility, which aids in maintainability and clarity. 
+The file ```CarController``` is made since its content was previously inside ```ProductController```.
 
+- DIP
+Dependency Inversion Principle is when high-level modules should not depend on low-level modules. Instead, both should depend on
+abstractions, which enhances flexibility within the system. This means it will be easier to expand or modify the code without tampering
+other components. In my project, this is visible in the ```CarServiceImpl``` class, where the repository is added through its interface.
+```java
+@Autowired 
+public CarServiceImpl(CarRepositoryInterface carRepository) {
+    this.carRepository = carRepository;
+}
+```
+Because of this ```CarServiceImpl``` remains independent and does not rely on any concrete repository implementation.
+
+- OCP
+Open-Closed Principle is when classes, function, and modules should be allowed in a way that allows us to add new features without having 
+to tamper the original code. In my project, this is evident in ```AbstractRepository```, more accurately the ```AbstractRepository<T?``` class.
+The class provides general methods of implementation, which includes create, delete, update, findAll, and findById. Other than that, defining interfaces, 
+such as ```CarRepositoryInterface``` and ```ProductRepositoryInterface```, will rely on abstractions instead of specific implementations. 
+
+
+**2. The advantages of applying SOLID principles in my project are listed below:**
+- Improves Flexibility and Extensibility
+An example of this would be in ```AbstractRepository```, where it is used for extension rather than modification. By doing so, we can add
+new entities (i.e. create a new repository) without having to edit the already working and tested code.
+
+- Improves Maintainability
+The project is easier to update and fix since common functions are kept in one place (e.g. ```AbstractRepository``` is placed in the same directory as the other repositories).
+This way, we just need to change a component instead of the whole codebase when dealing with a bug or minor changes to be made.
+
+**3. The disadvantage of not applying SOLID principles in my project are listed below:**
+- Dependency between components/codes
+The codes will be tightly connected to specific implementations instead of abstractions, making it harder to update or replace. 
+An example would be if a service later is directly linked to a specific repository, and making changes means other layers
+must be changes as well. 
+
+- Reduce Maintainability
+If different responsibilities aren't separated clearly, any updates made (large or small) must be changed in the controller, repository, and 
+service. An example would be handling the logic of "update car" in controller instead of isolating it in the repository or service since any changes
+will affect the other codes. 
 
 </details>
