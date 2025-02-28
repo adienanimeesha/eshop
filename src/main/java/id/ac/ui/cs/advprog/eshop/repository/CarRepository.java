@@ -13,8 +13,8 @@ public class CarRepository implements CarRepositoryInterface {
     private List<Car> carData = new ArrayList<>();
 
     @Override
-    public Car create(Car car){
-        if(car.getCarId() == null) {
+    public Car create(Car car) {
+        if (car.getCarId() == null) {
             UUID uuid = UUID.randomUUID();
             car.setCarId(uuid.toString());
         }
@@ -23,12 +23,12 @@ public class CarRepository implements CarRepositoryInterface {
     }
 
     @Override
-    public Iterator<Car> findAll(){
+    public Iterator<Car> findAll() {
         return carData.iterator();
     }
 
     @Override
-    public Car findById(String id){
+    public Car findById(String id) {
         for (Car car : carData) {
             if (car.getCarId().equals(id)) {
                 return car;
@@ -38,9 +38,8 @@ public class CarRepository implements CarRepositoryInterface {
     }
 
     @Override
-    public Car update(String id, Car updateCar){
-        for (int i = 0; i < carData.size(); i++) {
-            Car car = carData.get(i);
+    public Car update(String id, Car updateCar) {
+        for (Car car : carData) {
             if (car.getCarId().equals(id)) {
                 // update existing car with new information
                 car.setCarName(updateCar.getCarName());
@@ -53,7 +52,7 @@ public class CarRepository implements CarRepositoryInterface {
     }
 
     @Override
-    public void delete(String id){
+    public void delete(String id) {
         carData.removeIf(car -> car.getCarId().equals(id));
     }
 }
