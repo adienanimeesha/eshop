@@ -2,57 +2,19 @@ package id.ac.ui.cs.advprog.eshop.repository;
 
 import id.ac.ui.cs.advprog.eshop.model.Car;
 import org.springframework.stereotype.Repository;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.UUID;
 
 @Repository
-public class CarRepository implements CarRepositoryInterface {
+public class CarRepository extends AbstractRepository<Car> implements CarRepositoryInterface {
 
-    private List<Car> carData = new ArrayList<>();
-
-    @Override
-    public Car create(Car car) {
-        if (car.getCarId() == null) {
-            UUID uuid = UUID.randomUUID();
-            car.setCarId(uuid.toString());
-        }
-        carData.add(car);
-        return car;
+    public CarRepository() {
+        // pass method references for getting and setting the carId
+        super(Car::getCarId, Car::setCarId);
     }
 
     @Override
-    public Iterator<Car> findAll() {
-        return carData.iterator();
-    }
-
-    @Override
-    public Car findById(String id) {
-        for (Car car : carData) {
-            if (car.getCarId().equals(id)) {
-                return car;
-            }
-        }
-        return null;
-    }
-
-    @Override
-    public Car update(String id, Car updateCar) {
-        for (Car car : carData) {
-            if (car.getCarId().equals(id)) {
-                // update existing car with new information
-                car.setCarName(updateCar.getCarName());
-                car.setCarColor(updateCar.getCarColor());
-                car.setCarQuantity(updateCar.getCarQuantity());
-                return car;
-            }
-        }
-        return null;
-    }
-
-    @Override
-    public void delete(String id) {
-        carData.removeIf(car -> car.getCarId().equals(id));
+    protected void updateEntity(Car existing, Car updatedEntity) {
+        existing.setCarName(updatedEntity.getCarName());
+        existing.setCarColor(updatedEntity.getCarColor());
+        existing.setCarQuantity(updatedEntity.getCarQuantity());
     }
 }

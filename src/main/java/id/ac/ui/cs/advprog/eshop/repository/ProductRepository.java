@@ -3,46 +3,17 @@ package id.ac.ui.cs.advprog.eshop.repository;
 import id.ac.ui.cs.advprog.eshop.model.Product;
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.UUID;
-
 @Repository
-public class ProductRepository implements ProductRepositoryInterface{
-    private List<Product> productData = new ArrayList<>();
+public class ProductRepository extends AbstractRepository<Product> implements ProductRepositoryInterface {
 
-    public Product create(Product product) {
-        if (product.getProductId() == null || product.getProductId().isEmpty()) {
-            product.setProductId(UUID.randomUUID().toString());
-        }
-        productData.add(product);
-        return product;
+    public ProductRepository() {
+        // pass the getter and setter for productId
+        super(Product::getProductId, Product::setProductId);
     }
 
-    public Iterator<Product> findAll() {
-        return productData.iterator();
-    }
-
-    public Product findById(String id) {
-        return productData.stream()
-                .filter(product -> product.getProductId().equals(id))
-                .findFirst()
-                .orElse(null);
-    }
-
-    public Product update(String id, Product updatedProduct) {
-        for (Product product : productData) {
-            if (product.getProductId().equals(id)) {
-                product.setProductName(updatedProduct.getProductName());
-                product.setProductQuantity(updatedProduct.getProductQuantity());
-                return product;
-            }
-        }
-        return null;
-    }
-
-    public void delete(String id) {
-        productData.removeIf(product -> product.getProductId().equals(id));
+    @Override
+    protected void updateEntity(Product existing, Product updatedEntity) {
+        existing.setProductName(updatedEntity.getProductName());
+        existing.setProductQuantity(updatedEntity.getProductQuantity());
     }
 }
