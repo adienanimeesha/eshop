@@ -36,7 +36,7 @@ redefining it. This step also allows the test cases to be cleaner and maintainab
 ## Module 2
 
 <details>
-  <summary>Reflection 1</summary>
+  <summary>Reflection</summary>
 
 1. 
 - First issue: SonarCloud suggests not hardcoding the version numbers in build.gradle.kts. This is resolved by creating a new file called gradle.properties
@@ -50,6 +50,16 @@ that any future changes to the redirect URL only need to be made in one place.
 are run and verified before merging into the main branch, which demonstrates Continuous Integration by immediately testing new code to catch any issues. Other than that, 
 Continuous Deployment is implemented as well since the project is integrated with Koyeb. Therefore every time new code is pushed, the application is automatically deployed without 
 requiring any extra manual steps.
+
+
+</details>
+
+
+## Module 3
+<details>
+  <summary>Reflection</summary>
+
+1. 
 
 
 </details>
