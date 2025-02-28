@@ -13,7 +13,7 @@ public abstract class AbstractRepository<T> {
     protected Function<T, String> getId;
     protected BiConsumer<T, String> setId;
 
-    public AbstractRepository(Function<T, String> getId, BiConsumer<T, String> setId) {
+    protected AbstractRepository(Function<T, String> getId, BiConsumer<T, String> setId) {
         this.getId = getId;
         this.setId = setId;
     }

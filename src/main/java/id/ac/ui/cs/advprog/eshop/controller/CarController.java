@@ -13,6 +13,7 @@ import java.util.List;
 @RequestMapping("/car")
 public class CarController {
 
+    private static final String REDIRECT_LIST_CAR = "redirect:listCar";
     private final CarService carService;
 
     @Autowired
@@ -30,7 +31,7 @@ public class CarController {
     @PostMapping("/createCar")
     public String createCarPost(@ModelAttribute Car car) {
         carService.create(car);
-        return "redirect:listCar";
+        return REDIRECT_LIST_CAR;
     }
 
     @GetMapping("/listCar")
@@ -50,12 +51,12 @@ public class CarController {
     @PostMapping("/editCar")
     public String editCarPost(@ModelAttribute Car car) {
         carService.update(car.getCarId(), car);
-        return "redirect:listCar";
+        return REDIRECT_LIST_CAR;
     }
 
     @PostMapping("/deleteCar")
     public String deleteCar(@RequestParam("carId") String carId) {
         carService.deleteCarById(carId);
-        return "redirect:listCar";
+        return REDIRECT_LIST_CAR;
     }
 }
