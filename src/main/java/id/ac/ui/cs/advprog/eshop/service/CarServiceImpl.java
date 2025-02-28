@@ -11,12 +11,15 @@ import java.util.List;
 @Service
 public class CarServiceImpl implements CarService {
 
+    private final CarRepositoryInterface carRepository;
+
     @Autowired
-    private CarRepositoryInterface carRepository;
+    public CarServiceImpl(CarRepositoryInterface carRepository) {
+        this.carRepository = carRepository;
+    }
 
     @Override
     public Car create(Car car) {
-        // TODO Auto-generated method stub
         carRepository.create(car);
         return car;
     }
@@ -36,13 +39,11 @@ public class CarServiceImpl implements CarService {
 
     @Override
     public void update(String carId, Car car) {
-        // TODO Auto-generated method stub
         carRepository.update(carId, car);
     }
 
     @Override
     public void deleteCarById(String carId) {
-        // TODO Auto-generated method stub
         carRepository.delete(carId);
     }
 }
