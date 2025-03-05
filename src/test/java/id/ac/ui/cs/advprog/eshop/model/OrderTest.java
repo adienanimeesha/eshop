@@ -1,8 +1,11 @@
+import id.ac.ui.cs.advprog.eshop.model.Order;
 import id.ac.ui.cs.advprog.eshop.model.Product;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
+import java.util.List;
 import java.util.ArrayList;
+import static org.junit.jupiter.api.Assertions.*;
+
 
 class OrderTest {
     private List<Product> products;
@@ -14,7 +17,7 @@ class OrderTest {
         product1.setProductName("Sampo Cap Bambang");
         product1.setProductQuantity(2);
         Product product2 = new Product();
-        Product2.setProductId("a2c62328-4a37-4664-83c7-f32db8620155");
+        product2.setProductId("a2c62328-4a37-4664-83c7-f32db8620155");
         product2.setProductName("Sampo Cap Bambang");
         product2.setProductQuantity(1);
         this.products.add(product1);
@@ -49,8 +52,8 @@ class OrderTest {
 
     @Test
     void testCreateOrderSuccessStatus() {
-        Order order = new("13652556-012a-4c07-b546-54eb1396d79b",
-            this.product, 170856000L, "Safira Sudrajat", "SUCCESS");
+        Order order = new Order("13652556-012a-4c07-b546-54eb1396d79b",
+            this.products, 170856000L, "Safira Sudrajat", "SUCCESS");
         assertEquals("SUCCESS", order.getStatus());
     }
 
