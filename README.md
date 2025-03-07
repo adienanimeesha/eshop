@@ -105,3 +105,36 @@ service. An example would be handling the logic of "update car" in controller in
 will affect the other codes. 
 
 </details>
+
+## Module 4
+<details>
+<summary>Reflection</summary>
+
+1. 
+Working with TDD is very useful. This is because I’m required to write the tests before implementing the models, and this allows me to plan and define beforehand 
+how I want my application should behave. The commit messages provided (i.e. [RED] Add tests for Order model, [GREEN] Implement Order model, etc) also allow me to 
+fully and carefully plan what is needed for each component (such as Order model, OrderServiceImpl, etc). This also helps in detecting bugs in the early stages and 
+how it can be immediately resolved. However, to ensure TDD is used optimally, I should include more edge cases and other scenarios so that my code could have a broad 
+test coverage.
+
+2. 
+The unit tests I made in the project follow the F.I.R.S.T. principle.
+
+- **Fast**
+The tests run quickly due to the usage of mocks and in-memory data. An example is how OrderServiceImplTest uses Mockito to
+
+- **Independent**
+Using @BeforeEach in OrderRepositoryTest and OrderServiceTest initialize new data every time a test is run. This isolates the tests,  allows the outcome of it to not affect the other, thus providing reliable and independent results.
+
+- **Repeatable**
+Each test has its own setup, and it uses in-memory data and mocks. This means the tests will yield a consistent result every time it’s run.
+
+- **Self-Validating**
+The usage of clear assertions (assertEquals, assertThrows, etc) in the tests automatically determines whether the test passed or failed. Because of this, checking the result manually is not needed, and it ensures the code behaves as expected.
+
+- **Timely**
+Creating the tests before writing the production code (i.e. creating test before implementing models and others) gives an overview/idea of what the project requires early during the stage. This ensures testing objectives were clear and guided the development process from the start.
+
+
+
+</details>
