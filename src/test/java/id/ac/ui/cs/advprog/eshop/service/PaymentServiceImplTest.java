@@ -51,7 +51,8 @@ public class PaymentServiceImplTest {
         payments = new ArrayList<>();
 
         paymentData1 = new HashMap<>();
-        paymentData1.put("voucherCode", "SHOP4321ZYX9876");
+        // Updated voucher code to meet criteria: 16 characters, starts with "ESHOP", contains 8 digits.
+        paymentData1.put("voucherCode", "ESHOP4321ABC9876");
         Payment successPayment1 = new Payment(
                 "11111111-2222-3333-4444-555555555555",
                 "voucherCode",
